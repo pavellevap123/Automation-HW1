@@ -15,13 +15,13 @@ public class MathUtil {
         return first / second;
     }
 
-    public static double count(double num1, double num2, String operator) {
+    public static double count(double num1, double num2, String operator) throws IncorrectOperatorException {
         return switch (operator) {
             case "+" -> MathUtil.summarize(num1, num2);
             case "-" -> MathUtil.subtract(num1, num2);
             case "*" -> MathUtil.multiply(num1, num2);
             case "/" -> MathUtil.divide(num1, num2);
-            default -> 0;
+            default -> throw new IncorrectOperatorException("Incorrect operator");
         };
     }
 

@@ -1,8 +1,7 @@
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-public class UnitTests {
+public class MathUnitTests {
 
     @Test
     public void testMathSummarize() {
@@ -25,23 +24,28 @@ public class UnitTests {
     }
 
     @Test
-    public void testSummarizeCountWithOperator() {
+    public void testSummarizeCountWithOperator() throws IncorrectOperatorException {
         assertEquals(10, MathUtil.count(7, 3, "+"));
     }
 
     @Test
-    public void testSubtractCountWithOperator() {
+    public void testSubtractCountWithOperator() throws IncorrectOperatorException {
         assertEquals(4, MathUtil.count(7, 3, "-"));
     }
 
     @Test
-    public void testMultiplyCountWithOperator() {
+    public void testMultiplyCountWithOperator() throws IncorrectOperatorException {
         assertEquals(21, MathUtil.count(7, 3, "*"));
     }
 
     @Test
-    public void testDivisionCountWithOperator() {
+    public void testDivisionCountWithOperator() throws IncorrectOperatorException {
         assertEquals(7, MathUtil.count(21, 3, "/"));
+    }
+
+    @Test
+    public void testCountWithInvalidOperator() {
+        assertThrows(IncorrectOperatorException.class, () -> MathUtil.count(21, 3, "e"));
     }
 
     @Test
@@ -53,5 +57,4 @@ public class UnitTests {
     public void testDivisionByNonZero() {
         assertDoesNotThrow(() -> MathUtil.checkByZeroDivision("/", 1));
     }
-
 }
