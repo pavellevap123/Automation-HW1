@@ -1,46 +1,34 @@
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MathUnitTests {
 
-    @Test
-    public void testMathSummarize() {
-        assertEquals(4, MathUtil.summarize(2, 2), "2 + 2 = 4");
+    @ParameterizedTest
+    @CsvSource(value = {"2, 5, 7", "-6, 3, -3", "-1, -1, -2"})
+    public void testSummarizeCountWithOperator(int firstValue, int lastValue, int result) throws IncorrectOperatorException {
+        assertEquals(result, MathUtil.count(firstValue, lastValue, "+"), "Wrong summarize calculation!");
     }
 
-    @Test
-    public void testMathSubtract() {
-        assertEquals(5, MathUtil.subtract(10, 5), "10 - 5 = 5");
+    @ParameterizedTest
+    @CsvSource(value = {"12, 5, 7", "-6, 3, -9", "-2, -1, -1"})
+    public void testSubtractCountWithOperator(int firstValue, int lastValue, int result) throws IncorrectOperatorException {
+        assertEquals(result, MathUtil.count(firstValue, lastValue, "-"), "Wrong subtract calculation!");
     }
 
-    @Test
-    public void testMathMultiply() {
-        assertEquals(9, MathUtil.multiply(3, 3), "3 * 3 = 9");
+    @ParameterizedTest
+    @CsvSource(value = {"2, 5, 10", "-6, 3, -18", "-12, -2, 24"})
+    public void testMultiplyCountWithOperator(int firstValue, int lastValue, int result) throws IncorrectOperatorException {
+        assertEquals(result, MathUtil.count(firstValue, lastValue, "*"), "Wrong multiply calculation!");
     }
 
-    @Test
-    public void testMathDivide() {
-        assertEquals(5, MathUtil.divide(10, 2), "10 / 2 = 5");
-    }
-
-    @Test
-    public void testSummarizeCountWithOperator() throws IncorrectOperatorException {
-        assertEquals(10, MathUtil.count(7, 3, "+"));
-    }
-
-    @Test
-    public void testSubtractCountWithOperator() throws IncorrectOperatorException {
-        assertEquals(4, MathUtil.count(7, 3, "-"));
-    }
-
-    @Test
-    public void testMultiplyCountWithOperator() throws IncorrectOperatorException {
-        assertEquals(21, MathUtil.count(7, 3, "*"));
-    }
-
-    @Test
-    public void testDivisionCountWithOperator() throws IncorrectOperatorException {
-        assertEquals(7, MathUtil.count(21, 3, "/"));
+    @ParameterizedTest
+    @CsvSource(value = {"10, 5, 2", "-6, 3, -2", "-12, -2, 6"})
+    public void testDivisionCountWithOperator(int firstValue, int lastValue, int result) throws IncorrectOperatorException {
+        assertEquals(result, MathUtil.count(firstValue, lastValue, "/"), "Wrong division calculation!");
     }
 
     @Test
@@ -53,8 +41,9 @@ public class MathUnitTests {
         assertThrows(ZeroDivisionException.class, () -> MathUtil.checkByZeroDivision("/", 0));
     }
 
-    @Test
-    public void testDivisionByNonZero() {
-        assertDoesNotThrow(() -> MathUtil.checkByZeroDivision("/", 1));
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 1})
+    public void testDivisionByNonZero(int value) {
+        assertDoesNotThrow(() -> MathUtil.checkByZeroDivision("/", value));
     }
 }

@@ -1,11 +1,18 @@
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ParseUnitTests {
 
-    @Test
-    public void testParseToDoubleValid() {
-        assertEquals(4.0, ParseUtil.parseToDouble("4"), "Parsing to to failed");
+    @ParameterizedTest
+    @CsvSource(value = {"5, 5", "-6, -6", "0, 0"})
+    public void testParseToDoubleValid(double valueToParse, double expectedValue) {
+        assertEquals(expectedValue,
+                ParseUtil.parseToDouble(String.format("%1$,.2f", valueToParse)),
+                "Parsing to double failed");
     }
 
     @Test
@@ -13,9 +20,10 @@ public class ParseUnitTests {
         assertThrows(NumberFormatException.class, () -> ParseUtil.parseToDouble("e"));
     }
 
-    @Test
-    public void testParseValidOperator() {
-        assertDoesNotThrow(() -> ParseUtil.parseOperator("/"));
+    @ParameterizedTest
+    @ValueSource(strings = {"+", "-", "*", "/"})
+    public void testParseValidOperator(String value) {
+        assertDoesNotThrow(() -> ParseUtil.parseOperator(value));
     }
 
     @Test
